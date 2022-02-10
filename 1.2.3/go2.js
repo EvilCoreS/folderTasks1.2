@@ -20,15 +20,19 @@ function readHttpLikeInput(){
 let contents = readHttpLikeInput();
 
 function outputHttpResponse(statusCode, statusMessage, headers, body) {
-
-    console.log(`HTTP/1.1 ${statusCode} ${statusMessage}
-Date: ${new Date()}
+    let temp = headers.map(arr => arr.join(": "))
+    temp = temp.join("\n")
+    let output = `HTTP/1.1 ${String(statusCode)} ${String(statusMessage)}
+Date: ${String(new Date())}
 Server: Apache/2.2.14 (Win32)
 Connection: Closed
 Content-Type: text/html; charset=utf-8
 Content-Length: ${String(body).length}
+`
+    output += temp + "\n"
+    output += "\n" + body
+    console.log(output)
 
-${body}`);
 }
 
 function processHttpRequest(method, uri, headers, body) {
