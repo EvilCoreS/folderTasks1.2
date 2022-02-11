@@ -48,7 +48,7 @@ function processHttpRequest(method, uri, headers, body) {
     let currentLogin = body.match(/=[a-z0-9]+/ig).map(element => {return element.replace("=", "")}).join(":")
     let status
     passwords.forEach(element => {if (element === currentLogin) {status = true} } )
-    if (method === "POST" && /\/api\/checkLoginAndPassword/ig.test(uri) && status === true && headers[1][1] === "application/x-www-form-urlencoded"){
+    if (method === "POST" && /\/api\/checkLoginAndPassword/ig.test(uri) && status === true){
         result = ["200", "OK", headers, "<h1 style=\"color:green\">FOUND</h1>"]
     }
     if (method === "POST" && !(/\/api/ig.test(uri) ) ){
@@ -57,8 +57,11 @@ function processHttpRequest(method, uri, headers, body) {
     if (method === "POST" && status !== true){
         result = ["400", "Bad Request", headers, "login&pass not found"]
     }
-    if (method !== "POST" || /\/api/ig.test(uri) || headers[1][1] !== "application/x-www-form-urlencoded"){
-        if ( !(/\/api\/checkLoginAndPassword/ig.test(uri) || method !== "POST" || headers[1][1] !== "application/x-www-form-urlencoded") ){
+    if (method === "POST" && /\/api\/checkLoginAndPassword/ig.test(uri) && headers[1][1] !== "application/x-www-form-urlencoded"){
+        result = ["400", "Undesirable Content Type", headers, "not found"]
+    }
+    if (method !== "POST" || /\/api/ig.test(uri)){
+        if ( !(/\/api\/checkLoginAndPassword/ig.test(uri) || method !== "POST") ){
             result = ["400", "Bad Request", headers, "not found"]
         }
     }
