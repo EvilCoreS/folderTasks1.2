@@ -20,8 +20,6 @@ function readHttpLikeInput(){
 let contents = readHttpLikeInput();
 
 function outputHttpResponse(statusCode, statusMessage, headers, body) {
-    let temp = headers.map(arr => arr.join(": "))
-    temp = temp.join("\n")
     let output = `HTTP/1.1 ${String(statusCode)} ${String(statusMessage)}
 Date: ${String(new Date())}
 Server: Apache/2.2.14 (Win32)
