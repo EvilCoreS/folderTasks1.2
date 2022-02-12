@@ -29,7 +29,6 @@ Connection: Closed
 Content-Type: text/html; charset=utf-8
 Content-Length: ${String(body).length}
 `
-    output += temp + "\n"
     output += "\n" + body
     console.log(output)
 
